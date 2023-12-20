@@ -93,7 +93,7 @@
             <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/">Главная</a>
             <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/contact">Контакты</a>
             <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="#">Документация</a>
-            <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="#">Поддержка</a>
+            <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="/admin">Админка</a>
         </nav>
         <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
             <h1 class="display-4 fw-normal text-body-emphasis">Добро пожаловать!</h1>
@@ -101,7 +101,31 @@
         </div>
     </header>
     <main>
-
+        <div class="row text-center">
+            <p class="fs-5 text-body-secondary">Список товаров</p>
+            <table class="table table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">идентификатор</th>
+                    <th scope="col">название товара</th>
+                    <th scope="col">цена за штуку</th>
+                    <th scope="col">описание</th>
+                    <th scope="col">категория</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in products %}
+                <tr>
+                    <td>{{ item.pk }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.price }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.category }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </main>
     <footer class="pt-4 my-md-5 pt-md-5 border-top">
         <div class="row">
