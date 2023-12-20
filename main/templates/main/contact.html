@@ -132,6 +132,20 @@
                     </div>
                 </div>
             </div>
+            <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">Контакты</h4>
+                    </div>
+                    <div class="card-body">
+                        {% for contact in contacts %}
+                        <p>
+                            <small class="card-title pricing-card-title navy_color">{{ contact.name }}: {{ contact.email }}</small>
+                        </p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
     <footer class="pt-4 my-md-5 pt-md-5 border-top">

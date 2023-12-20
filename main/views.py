@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from main.models import Product, Category
+from main.models import Product, Category, Contact
 
 # Create your views here.
 def index(request):
@@ -11,9 +11,16 @@ def index(request):
 
 
 def contact(request):
+
     if request.method == 'POST':
         name = request.POST.get('name')
         email = request.POST.get('email')
         if name is not None and email is not None:
-            return render(request, 'main/contact.html', context={'name': name, 'email': email})
-    return render(request, 'main/contact.html')
+            contact = Contact.objects.filter(name=name)
+            print(contact)
+            if not contact:
+                Contact.objects.create(name=name, email=email)
+            contacts = Contact.objects.all()
+            return render(request, 'main/contact.html', context={'name': name, 'email': email, 'contacts': contacts})
+    contacts = Contact.objects.all()
+    return render(request, 'main/contact.html', context={'contacts': contacts})
