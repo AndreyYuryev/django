@@ -1,9 +1,13 @@
 from django.shortcuts import render
-
+from main.models import Product, Category
 
 # Create your views here.
 def index(request):
-    return render(request, 'main/index.html')
+    product_list = Product.objects.all()
+    products = []
+    for indx in range(product_list.count()-1,product_list.count() - 5,-1):
+        products.append(product_list[indx])
+    return render(request, 'main/index.html', context={'products': products})
 
 
 def contact(request):
