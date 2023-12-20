@@ -1,0 +1,138 @@
+[
+  {
+    "model": "main.category",
+    "pk": 1,
+    "fields": {
+      "name": "овощи",
+      "description": "Различные овощные культуры"
+    }
+  },
+  {
+    "model": "main.category",
+    "pk": 2,
+    "fields": {
+      "name": "фрукты",
+      "description": "Различные фрукты"
+    }
+  },
+  {
+    "model": "main.category",
+    "pk": 3,
+    "fields": {
+      "name": "мясо",
+      "description": "Мясные продукты"
+    }
+  },
+  {
+    "model": "main.category",
+    "pk": 4,
+    "fields": {
+      "name": "напитки",
+      "description": "Безалкогольные напитки"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 1,
+    "fields": {
+      "name": "морковь",
+      "description": "морковь обыкновенная",
+      "preview": "",
+      "category": 1,
+      "price": "30.99",
+      "created_at": "2023-12-20T21:01:32.806Z",
+      "changed_at": "2023-12-20T21:01:32.806Z"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 2,
+    "fields": {
+      "name": "капуста белокочанная",
+      "description": "капуста обыкновенная",
+      "preview": "",
+      "category": 1,
+      "price": "60.00",
+      "created_at": "2023-12-20T21:02:05.844Z",
+      "changed_at": "2023-12-20T21:02:05.844Z"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 3,
+    "fields": {
+      "name": "яблоки",
+      "description": "яблоко Леголь",
+      "preview": "",
+      "category": 2,
+      "price": "70.50",
+      "created_at": "2023-12-20T21:02:32.727Z",
+      "changed_at": "2023-12-20T21:02:32.727Z"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 4,
+    "fields": {
+      "name": "бананы",
+      "description": "бананы Гондурас",
+      "preview": "",
+      "category": 2,
+      "price": "121.99",
+      "created_at": "2023-12-20T21:02:55.132Z",
+      "changed_at": "2023-12-20T21:02:55.132Z"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 5,
+    "fields": {
+      "name": "свинина",
+      "description": "свинина экстра",
+      "preview": "",
+      "category": 3,
+      "price": "379.99",
+      "created_at": "2023-12-20T21:03:41.270Z",
+      "changed_at": "2023-12-20T21:03:41.270Z"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 6,
+    "fields": {
+      "name": "куриное филе",
+      "description": "куриное филе Приосколье",
+      "preview": "",
+      "category": 3,
+      "price": "254.50",
+      "created_at": "2023-12-20T21:04:18.473Z",
+      "changed_at": "2023-12-20T21:04:18.473Z"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 7,
+    "fields": {
+      "name": "сок гранатовый",
+      "description": "сок гранатовый первого отжима",
+      "preview": "",
+      "category": 4,
+      "price": "229.99",
+      "created_at": "2023-12-20T21:03:41.270Z",
+      "changed_at": "2023-12-20T21:03:41.270Z"
+    }
+  },
+  {
+    "model": "main.product",
+    "pk": 8,
+    "fields": {
+      "name": "нектар манго",
+      "description": "нектар манго осветленный",
+      "preview": "",
+      "category": 4,
+      "price": "119.99",
+      "created_at": "2023-12-20T21:04:18.473Z",
+      "changed_at": "2023-12-20T21:04:18.473Z"
+    }
+  }
+]
