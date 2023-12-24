@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load custom_tags %}
 <html lang="en">
 <head>
     <script src="{% static 'main/color-modes.js' %}"></script>
@@ -102,7 +103,7 @@
     <footer class="pt-4 my-md-5 pt-md-5 border-top">
         <div class="row">
             <div class="col-12 col-md">
-                <small class="d-block mb-3 text-body-secondary">&copy;2023</small>
+                <small class="d-block mb-3 text-body-secondary">&copy;{% this_year '%Y' %}</small>
             </div>
         </div>
     </footer>
