@@ -16,7 +16,7 @@
                 {% endif %}
             </div>
             <div class="card-body">
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <label for="FormControlName" class="form-label">Наименование</label>
                     <input type="text" class="form-control" id="FormControlName" placeholder="наименование" name="name">

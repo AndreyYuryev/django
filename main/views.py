@@ -2,6 +2,7 @@ from django.shortcuts import render
 from main.models import Product, Category, Contact
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
+from django.core.files.storage import FileSystemStorage
 
 # Create your views here.
 def index(request):
@@ -42,7 +43,12 @@ def add_product(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         description = request.POST.get('description')
-        preview = request.POST.get('preview')
+        if request.FILES:
+            file = request.FILES['preview']
+            fs = FileSystemStorage()
+            filename = fs.save(file.name, file)
+        else:
+            filename = ''
         category_name = request.POST.get('category')
         price = request.POST.get('price')
         if name is not None :
@@ -50,6 +56,6 @@ def add_product(request):
             if not product:
                 category = Category.objects.filter(name=category_name)
                 if category:
-                    Product.objects.create(name=name, description=description, preview=preview, category=category[0], price=price)
+                    Product.objects.create(name=name, description=description, preview=filename, category=category[0], price=price)
                     return render(request, 'main/add_product.html', context={'success': True})
     return render(request, 'main/add_product.html')
