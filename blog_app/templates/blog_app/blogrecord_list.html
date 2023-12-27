@@ -33,21 +33,27 @@
                 <th scope="col">содержимое</th>
                 <th scope="col">дата создания</th>
                 <th scope="col">просмотров</th>
+                <th scope="col">опубликовано</th>
                 <th scope="col">редактирование</th>
             </tr>
             </thead>
             <tbody>
             {% for object in object_list %}
             <tr>
-<!--                <td>-->
-<!--                    <a class="w-100 btn btn-lg btn-secondary"-->
-<!--                       href="{% url 'main:product' pk=object.pk %}">{{object.name}}</a></td>-->
+                <!--                <td>-->
+                <!--                    <a class="w-100 btn btn-lg btn-secondary"-->
+                <!--                       href="{% url 'main:product' pk=object.pk %}">{{object.name}}</a></td>-->
                 <td>
                     <a class="w-100 btn btn-lg btn-secondary"
                        href="{% url 'blog_app:blog' pk=object.pk %}">{{object.title}}</a></td>
                 <td>{{ object.text|truncatechars:100 }}</td>
                 <td>{{ object.created_at }}</td>
                 <td>{{object.viewed}}</td>
+                {% if object.is_published %}
+                <td>Да</td>
+                {% else %}
+                <td>Нет</td>
+                {% endif %}
                 <td><a class="w-100 btn btn-lg btn-success"
                        href="{% url 'blog_app:update' pk=object.pk %}">Изменить</a></td>
             </tr>
