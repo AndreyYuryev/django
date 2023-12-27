@@ -18,7 +18,7 @@ class MyServer(BaseHTTPRequestHandler):
         current_dir = os.path.dirname(os.path.abspath(__file__))
         src_dir = os.path.split(current_dir)[0]
         root_dir = os.path.split(src_dir)[0]
-        filepath = os.path.join(root_dir, os.path.normpath('src'), os.path.normpath('Homework1'), 'index.html')
+        filepath = os.path.join(root_dir, os.path.normpath('src'), os.path.normpath('Homework1'), 'index_server.html')
         if os.path.isfile(filepath):
             with open(file=filepath, mode='r', encoding='utf-8') as sql_file:
                 line = sql_file.read()
