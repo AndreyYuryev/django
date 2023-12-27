@@ -33,19 +33,29 @@
                 <th scope="col">цена за штуку</th>
                 <th scope="col">описание</th>
                 <th scope="col">категория</th>
+                <th scope="col">изменить</th>
             </tr>
             </thead>
             <tbody>
-            {% for item in products %}
+            {% for object in object_list %}
             <tr>
-                <td><a href="{% url 'main:product' product_id=item.pk %}">{{ item.name }}</a></td>
-                <td>{{ item.price }}</td>
-                <td>{{ item.description|truncatechars:100 }}</td>
-                <td>{{ item.category }}</td>
+                <td>
+                    <a class="w-100 btn btn-lg btn-secondary"
+                       href="{% url 'main:product' pk=object.pk %}">{{object.name}}</a></td>
+                <td>{{ object.price }}</td>
+                <td>{{ object.description|truncatechars:100 }}</td>
+                <td>{{ object.category.name }}</td>
+                <td><a class="w-100 btn btn-lg btn-success"
+                       href="{% url 'main:update' pk=object.pk %}">Изменить</a></td>
             </tr>
             {% endfor %}
             </tbody>
         </table>
+    </div>
+    <div class="col-12">
+        <div class="col-6">
+            <a class="w-100 btn btn-lg btn-warning" href="{% url 'main:create' %}">Добавить новый продукт</a>
+        </div>
     </div>
 </div>
 {% endblock %}
