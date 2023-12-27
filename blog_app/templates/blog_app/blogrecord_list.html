@@ -1,0 +1,64 @@
+{% extends 'blog_app/base.html' %}
+{% block header %}
+<div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+    <h1 class="display-4 fw-normal text-body-emphasis">Добро пожаловать!</h1>
+    <p class="fs-5 text-body-secondary">Это стартовая страница проекта!</p>
+</div>
+{% endblock %}
+{% block content %}
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+<div class="col">
+    <div class="row text-center">
+        <p class="fs-5 text-body-secondary">Список статей блога</p>
+        <table class="table table-sm">
+            <thead>
+            <tr>
+                <th scope="col">название статьи</th>
+                <th scope="col">содержимое</th>
+                <th scope="col">дата создания</th>
+                <th scope="col">просмотров</th>
+                <th scope="col">редактирование</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for object in object_list %}
+            <tr>
+<!--                <td>-->
+<!--                    <a class="w-100 btn btn-lg btn-secondary"-->
+<!--                       href="{% url 'main:product' pk=object.pk %}">{{object.name}}</a></td>-->
+                <td>
+                    <a class="w-100 btn btn-lg btn-secondary"
+                       href="{% url 'blog_app:blog' pk=object.pk %}">{{object.title}}</a></td>
+                <td>{{ object.text|truncatechars:100 }}</td>
+                <td>{{ object.created_at }}</td>
+                <td>{{object.viewed}}</td>
+                <td><a class="w-100 btn btn-lg btn-success"
+                       href="{% url 'blog_app:update' pk=object.pk %}">Изменить</a></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="col-12">
+        <div class="col-6">
+            <a class="w-100 btn btn-lg btn-warning" href="{% url 'blog_app:create' %}">Добавить новую статью</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
