@@ -15,11 +15,7 @@
             <div class="card-body">
                 <form method="post">
                     {% csrf_token %}
-                    <label for="FormControlName" class="form-label">Имя</label>
-                    <input type="text" class="form-control" id="FormControlName" placeholder="name" name="name">
-                    <label for="FormControlEmail" class="form-label">Email адрес</label>
-                    <input type="email" class="form-control" id="FormControlEmail" name="email"
-                           placeholder="name@example.com">
+                    {{ form.as_p }}
                     <input type="submit" value="Добавить" class="w-100 btn btn-lg btn-success"/>
                 </form>
             </div>
