@@ -23,14 +23,14 @@ class ProductDetailView(DetailView):
 class ProductCreateView(CreateView):
     model = Product
     fields = ('name', 'description', 'category', 'preview', 'price',)
-    extra_context = {'title': 'Добавление продукта'}
+    extra_context = {'title': 'Добавление продукта', 'header': 'Форма для создания продукта'}
     success_url = reverse_lazy('main:index')
 
 
 class ProductUpdateView(UpdateView):
     model = Product
     fields = ('description', 'price',)
-    extra_context = {'title': 'Изменение продукта'}
+    extra_context = {'title': 'Изменение продукта', 'header': 'Форма для изменения продукта'}
     success_url = reverse_lazy('main:index')
 
 
@@ -42,5 +42,5 @@ class ContactListView(ListView):
 class ContactCreateView(CreateView):
     model = Contact
     fields = ('name', 'email',)
-    extra_context = {'title': 'Добавление контакта'}
+    extra_context = {'title': 'Добавление контакта', 'header': 'Добавление нового контакта!'}
     success_url = reverse_lazy('main:contact')

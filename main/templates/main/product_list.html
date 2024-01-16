@@ -2,60 +2,84 @@
 {% block header %}
 <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
     <h1 class="display-4 fw-normal text-body-emphasis">Добро пожаловать!</h1>
-    <p class="fs-5 text-body-secondary">Это стартовая страница проекта!</p>
+    <p class="fs-5 text-body-secondary">Это список продуктов из базы</p>
 </div>
 {% endblock %}
 {% block content %}
-<div class="pagination">
-    <span class="step-links">
+<nav aria-label="Pagination">
+    <ul class="pagination justify-content-center">
         {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#">Предыдущая</a>
+        </li>
         {% endif %}
-
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
-
+        <li class="page-item active">
+            <div class="page-link">{{ page_obj.number }}</div>
+        </li>
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Следующая</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#">Следующая</a>
+        </li>
         {% endif %}
-    </span>
-</div>
-<div class="col">
-    <div class="row text-center">
+    </ul>
+</nav>
+<!--<div class="pagination">-->
+<!--    <span class="step-links">-->
+<!--        {% if page_obj.has_previous %}-->
+<!--            <a href="?page=1">&laquo; first</a>-->
+<!--            <a href="?page={{ page_obj.previous_page_number }}">previous</a>-->
+<!--        {% endif %}-->
+
+<!--        <span class="current">-->
+<!--            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.-->
+<!--        </span>-->
+
+<!--        {% if page_obj.has_next %}-->
+<!--            <a href="?page={{ page_obj.next_page_number }}">next</a>-->
+<!--            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>-->
+<!--        {% endif %}-->
+<!--    </span>-->
+<!--</div>-->
+<div class="row text-center">
+    <div class="col-12">
         <p class="fs-5 text-body-secondary">Список товаров</p>
-        <table class="table table-sm">
+        <table class="table table-sm table-borderless">
             <thead>
             <tr>
-                <th scope="col">название товара</th>
-                <th scope="col">цена за штуку</th>
-                <th scope="col">описание</th>
-                <th scope="col">категория</th>
-                <th scope="col">изменить</th>
+                <th scope="col">Название товара</th>
+                <th scope="col">Цена за штуку</th>
+                <th scope="col">Описание</th>
+                <th scope="col">Категория</th>
+                <th scope="col">Изменить</th>
             </tr>
             </thead>
             <tbody>
             {% for object in object_list %}
             <tr>
                 <td>
-                    <a class="w-100 btn btn-lg btn-secondary"
+                    <a class="w-100 btn btn-lg btn-outline-secondary"
                        href="{% url 'main:product' pk=object.pk %}">{{object.name}}</a></td>
-                <td>{{ object.price }}</td>
-                <td>{{ object.description|truncatechars:100 }}</td>
-                <td>{{ object.category.name }}</td>
-                <td><a class="w-100 btn btn-lg btn-success"
-                       href="{% url 'main:update' pk=object.pk %}">Изменить</a></td>
+                <td class="align-middle">{{ object.price }}</td>
+                <td class="justify-left">{{ object.description|truncatechars:100 }}</td>
+                <td class="align-middle">{{ object.category.name }}</td>
+                <td class="align-middle"><a class="w-100 btn btn-lg btn-outline-success"
+                                            href="{% url 'main:update' pk=object.pk %}">Изменить</a></td>
             </tr>
             {% endfor %}
+            <tr>
+                <td><a class="w-100 btn btn-lg btn-outline-warning" href="{% url 'main:create' %}">Добавить новый продукт</a>
+                </td>
+            </tr>
             </tbody>
         </table>
-    </div>
-    <div class="col-12">
-        <div class="col-6">
-            <a class="w-100 btn btn-lg btn-warning" href="{% url 'main:create' %}">Добавить новый продукт</a>
-        </div>
     </div>
 </div>
 {% endblock %}
