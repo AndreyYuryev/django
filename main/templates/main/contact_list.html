@@ -14,13 +14,15 @@
             </div>
             <div class="card-body">
                 {% for object in object_list %}
-                <p class="card-title pricing-card-title navy_color">Имя: {{object.name}} Email адрес:
-                    {{object.email}}</small></p>
+                <div class="text-center">
+                    <p class="card-title pricing-card-title navy_color">Имя: {{object.name}} Email адрес:
+                        {{object.email}}</small></p>
+                </div>
                 {% endfor %}
             </div>
             <div class="card-footer py-3">
-                <p class="my-0 fw-normal"><a class="w-100 btn btn-lg btn-success"
-                       href="{% url 'main:contact_create' %}">Добавить новый контакт</a></p>
+                <p class="my-0 fw-normal"><a class="w-100 btn btn-lg btn-outline-warning"
+                                             href="{% url 'main:contact_create' %}">Добавить новый контакт</a></p>
             </div>
         </div>
     </div>

@@ -1,8 +1,11 @@
-from django.shortcuts import render
 from blog_app.models import BlogRecord
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy, reverse
 from pytils.translit import slugify
+from blog_app.emails import send_email
+
+
+
 
 
 # Create your views here.
@@ -22,10 +25,21 @@ class BlogDetailView(DetailView):
     extra_context = {'title': 'Статья детально'}
 
     def get_object(self, queryset=None):
-        self.object = super().get_object(queryset)
-        self.object.viewed += 1
+        self.object = super().get_object(queryset=queryset)
+        self.object.view_count += 1
         self.object.save()
+        if self.object.view_count > 15:
+            title = self.object.title
+            send_email(title)
         return self.object
+
+    # def get(self, request, *args, **kwargs):
+    #     self.object = self.get_object()
+    #     print('- ', self.object.view_count)
+    #     self.object.view_count += 1
+    #     self.object.save()
+    #     context = self.get_context_data(object=self.object)
+    #     return self.render_to_response(context)
 
 
 class BlogCreateView(CreateView):
@@ -49,4 +63,4 @@ class BlogUpdateView(UpdateView):
     success_url = reverse_lazy('blog_app:index')
 
     def get_success_url(self):
-        return reverse('blog_app:blog', args=[self.kwargs.get('pk')])
+        return reverse('blog_app:detail', args=[self.kwargs.get('pk')])
