@@ -10,13 +10,13 @@
     <div class="col-6">
         <div class="card shadow-sm">
             <div class="card-header py-3">
-                <h4 class="my-0 fw-normal">Новый продукт</h4>
+                <h4 class="my-0 fw-normal">Продукт</h4>
             </div>
             <div class="card-body">
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <input type="submit" value="Добавить" class="w-100 btn btn-lg btn-success"/>
+                    <input type="submit" value="{{button}}" class="w-100 btn btn-lg btn-success"/>
                 </form>
             </div>
         </div>

@@ -1,6 +1,7 @@
 from main.models import Product, Contact
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy
+from main.forms import ContactForm, ProductForm
 
 
 # Create your views here.
@@ -22,16 +23,18 @@ class ProductDetailView(DetailView):
 
 class ProductCreateView(CreateView):
     model = Product
-    fields = ('name', 'description', 'category', 'preview', 'price',)
-    extra_context = {'title': 'Добавление продукта', 'header': 'Форма для создания продукта'}
+    # fields = ('name', 'description', 'category', 'preview', 'price',)
+    extra_context = {'title': 'Добавление продукта', 'header': 'Форма для создания продукта', 'button': 'Добавить'}
     success_url = reverse_lazy('main:index')
+    form_class = ProductForm
 
 
 class ProductUpdateView(UpdateView):
     model = Product
-    fields = ('description', 'price',)
-    extra_context = {'title': 'Изменение продукта', 'header': 'Форма для изменения продукта'}
+    # fields = ('description', 'price',)
+    extra_context = {'title': 'Изменение продукта', 'header': 'Форма для изменения продукта', 'button': 'Изменить'}
     success_url = reverse_lazy('main:index')
+    form_class = ProductForm
 
 
 class ContactListView(ListView):
@@ -41,6 +44,7 @@ class ContactListView(ListView):
 
 class ContactCreateView(CreateView):
     model = Contact
-    fields = ('name', 'email',)
+    # fields = ('name', 'email',)
     extra_context = {'title': 'Добавление контакта', 'header': 'Добавление нового контакта!'}
     success_url = reverse_lazy('main:contact')
+    form_class = ContactForm
