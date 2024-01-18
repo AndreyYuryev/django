@@ -5,21 +5,36 @@
     <p class="fs-5 text-body-secondary">{{header}}</p>
 </div>
 {% endblock %}
+
 {% block content %}
-<div class="row text-center">
-    <div class="col-6">
-        <div class="card shadow-sm">
-            <div class="card-header py-3">
-                <h4 class="my-0 fw-normal">Новый продукт</h4>
-            </div>
-            <div class="card-body">
-                <form method="post" enctype="multipart/form-data">
+<div class="col-12">
+    <form class="row" method="post" enctype="multipart/form-data">
+        <div class="col-6">
+            <div class="card shadow-md">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Продукт</h4>
+                </div>
+                <div class="card-body">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <input type="submit" value="Добавить" class="w-100 btn btn-lg btn-success"/>
-                </form>
+                    <input type="submit" value="{{button}}" class="w-100 btn btn-lg btn-success"/>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-6">
+            <div class="card shadow-md">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Версии</h4>
+                </div>
+                <div class="card-body">
+                    {{ formset.management_form}}
+                    {% for form in formset.forms %}
+                    {{ form.as_p }}
+                    {% endfor %}
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>
 {% endblock %}

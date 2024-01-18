@@ -5,9 +5,6 @@ from pytils.translit import slugify
 from blog_app.emails import send_email
 
 
-
-
-
 # Create your views here.
 class BlogListView(ListView):
     model = BlogRecord
