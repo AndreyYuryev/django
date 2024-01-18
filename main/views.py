@@ -12,7 +12,7 @@ class ProductListView(ListView):
     paginate_by = 5
 
     def get_ordering(self):
-        ordering = self.request.GET.get('ordering', 'created_at')
+        ordering = self.request.GET.get('ordering', 'name')
         # validate ordering here
         return ordering
 
@@ -57,18 +57,6 @@ class ProductUpdateView(UpdateView):
     def form_valid(self, form):
         context = self.get_context_data()
         formset = context['formset']
-        # for name, value in formset.cleaned_data.items():
-        #     print(name, value)
-        # cd = formset.cleaned_data
-        # raise ValidationError(('Уже существует активная версия'), code='error3')
-        # print(cd)
-        # active = 0
-        # for form in formset:
-        #     is_activ = form.cleaned_data.get('is_active', False)
-        #     if is_activ:
-        #     active += 1
-        # if active > 1:
-        #     raise ValidationError(('Уже существует активная версия'), code='error3')
         self.object = form.save()
         if formset.is_valid():
             formset.instance = self.object

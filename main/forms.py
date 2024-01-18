@@ -33,19 +33,26 @@ class ProductForm(ModelForm):
                                       params={'value': word})
         return cleaned_data
 
-class VersionForm(ModelForm):
 
+class VersionForm(ModelForm):
     class Meta:
         model = Version
         fields = '__all__'
 
-    def clean(self):
-        cleaned_data = super().clean()
-    #     is_act = cleaned_data.get("is_active")
-    #     print('is_active', is_act)
-    #     # for form in self.forms:
-    #     #     cleaned_data = form.cleaned_data
-    #     #     print(cleaned_data)
-    #     # # active_list = [form.cleaned_data['is_active'] for form in self.forms if 'is_active' in form.cleaned_data]
-    #     # # if active_list.count(True) > 1:
-    #     # #     raise ValidationError(('Уже существует активная версия'), code='error3')
+    def clean_is_active(self):
+        set_active = self.cleaned_data.get('is_active')
+        # если было True оставляем
+        # если изменение и уже есть активная версия - ошибка
+        if set_active:
+            active_count = 0
+            formset_cleaned_data = super().clean()
+            current_version = formset_cleaned_data['number']
+            saved_active_version = Version.objects.filter(product=formset_cleaned_data['product'], is_active=True)
+            for version in saved_active_version.values():
+                if current_version != version.get('number'):
+                    active_count += 1
+            if active_count > 0:
+                print('error')
+                raise ValidationError(('Уже существует активная версия %(value)s'), code='error3',
+                                      params={'value': current_version})
+        return set_active
