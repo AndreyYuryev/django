@@ -11,7 +11,7 @@
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 </head>
 <body>
-<div class="container py-3 body">
+<div class="container py-3 body text-center">
     <header>
         <div class="border-bottom">
             {% include 'main/includes/inc_main_menu.html' %}
@@ -19,12 +19,12 @@
         {% block header %}
         {% endblock %}
     </header>
-    <main>
-        <div class="row text-center">
-            <div class="col-12">
+    <main class="col-12">
+        <div class="row">
+<!--            <div class="col-12">-->
                 {% block content %}
                 {% endblock %}
-            </div>
+<!--            </div>-->
         </div>
     </main>
     {% include 'main/includes/inc_footer.html' %}

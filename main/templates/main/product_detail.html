@@ -17,6 +17,11 @@
                 <p class="card-title pricing-card-title navy_color">Категория: {{ object.category.name }}</small></p>
                 <p class="card-title pricing-card-title navy_color">Цена: {{ object.price }}</small></p>
                 <p class="card-title pricing-card-title navy_color">{{ object.description }}</small></p>
+                {% if version %}
+                {% for field in version %}
+                <p class="card-title pricing-card-title navy_color">Активная версия: {{ field.number }} {{ field.title }}</small></p>
+                {% endfor %}
+                {% endif %}
             </div>
             <div class="card-body">
                 <!--                <img src="/media/{{ product.preview }}" />-->

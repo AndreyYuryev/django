@@ -1,7 +1,8 @@
-from main.models import Product, Contact
+from main.models import Product, Contact, Version
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy
-from main.forms import ContactForm, ProductForm
+from main.forms import ContactForm, ProductForm, VersionForm
+from django.forms import inlineformset_factory, ValidationError
 
 
 # Create your views here.
@@ -20,6 +21,13 @@ class ProductDetailView(DetailView):
     model = Product
     extra_context = {'title': 'Продукт'}
 
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        version_obj = Version.objects.filter(product=self.object, is_active=True)
+        if version_obj:
+            context_data['version'] = version_obj
+        return context_data
+
 
 class ProductCreateView(CreateView):
     model = Product
@@ -35,6 +43,37 @@ class ProductUpdateView(UpdateView):
     extra_context = {'title': 'Изменение продукта', 'header': 'Форма для изменения продукта', 'button': 'Изменить'}
     success_url = reverse_lazy('main:index')
     form_class = ProductForm
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        # Формирование формсета
+        VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
+        if self.request.method == 'POST':
+            context_data['formset'] = VersionFormset(self.request.POST, instance=self.object)
+        else:
+            context_data['formset'] = VersionFormset(instance=self.object)
+        return context_data
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        formset = context['formset']
+        # for name, value in formset.cleaned_data.items():
+        #     print(name, value)
+        # cd = formset.cleaned_data
+        # raise ValidationError(('Уже существует активная версия'), code='error3')
+        # print(cd)
+        # active = 0
+        # for form in formset:
+        #     is_activ = form.cleaned_data.get('is_active', False)
+        #     if is_activ:
+        #     active += 1
+        # if active > 1:
+        #     raise ValidationError(('Уже существует активная версия'), code='error3')
+        self.object = form.save()
+        if formset.is_valid():
+            formset.instance = self.object
+            formset.save()
+        return super().form_valid(form)
 
 
 class ContactListView(ListView):
