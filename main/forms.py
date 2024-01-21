@@ -52,7 +52,6 @@ class VersionForm(ModelForm):
                 if current_version != version.get('number'):
                     active_count += 1
             if active_count > 0:
-                print('error')
                 raise ValidationError(('Уже существует активная версия %(value)s'), code='error3',
                                       params={'value': current_version})
         return set_active
