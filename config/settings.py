@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
     'main',
     'blog_app',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -156,3 +157,7 @@ DEFAULT_RECIPIENT = os.getenv('EMAIL')
 # EMAIL_HOST_USER = os.getenv('EMAIL')
 # EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+AUTH_USER_MODEL = 'users.User'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
