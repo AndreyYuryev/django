@@ -13,7 +13,7 @@
 <body>
 <div class="container py-3 body">
     <header class="text-center">
-        <div class="border-bottom">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
             {% include 'main/includes/inc_main_menu.html' %}
         </div>
         {% block header %}
@@ -21,10 +21,10 @@
     </header>
     <main class="col-12">
         <div class="row">
-<!--            <div class="col-12">-->
-                {% block content %}
-                {% endblock %}
-<!--            </div>-->
+            <!--            <div class="col-12">-->
+            {% block content %}
+            {% endblock %}
+            <!--            </div>-->
         </div>
     </main>
     {% include 'main/includes/inc_footer.html' %}

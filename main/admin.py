@@ -10,7 +10,7 @@ from main.models import Product, Category, Contact, Version
 # admin.site.register(Category)
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'price', 'category')
+    list_display = ('id', 'name', 'price', 'category', 'created_by')
     list_filter = ('category',)
     search_fields = ('name', 'description')
 
