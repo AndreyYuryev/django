@@ -4,6 +4,7 @@ from django.views.generic import CreateView, UpdateView, TemplateView
 from users.models import User
 from users.forms import UserRegisterForm, UserProfileForm, ResetPasswordForm
 from users.verify import verify_user, recover_password
+from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
 import random
 import string
 
@@ -45,3 +46,13 @@ def get_email(request):
     elif request.method == 'GET':
         form = ResetPasswordForm()
     return render(request, "users/recovery.html", {"form": form})
+
+
+class UserChangePasswordView(PasswordChangeView):
+    template_name = 'users/password_change.html'
+    success_url = reverse_lazy('users:password_change_done')
+
+
+class UserChangePasswordDoneView(PasswordChangeDoneView):
+    template_name = 'users/password_change_done.html'
+    success_url = reverse_lazy('users:password_change_done')
