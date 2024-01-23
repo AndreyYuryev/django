@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 
 # Create your models here.
@@ -22,6 +23,7 @@ class Product(models.Model):
     price = models.DecimalField(decimal_places=2, max_digits=16)
     created_at = models.DateTimeField(auto_now_add=True)
     changed_at = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='автор')
 
     def __str__(self):
         return f'Продукт: {self.id} {self.name} по цене {self.price} в категории {self.category}'

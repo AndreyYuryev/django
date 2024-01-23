@@ -1,0 +1,20 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="col-12">
+    <form class="row" method="post" enctype="multipart/form-data">
+        <div class="col-6">
+            <div class="card shadow-md">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Вход</h4>
+                </div>
+                <div class="card-body">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="w-100 btn btn-lg btn-success">Войти</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
