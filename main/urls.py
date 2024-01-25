@@ -6,7 +6,7 @@ app_name = MainConfig.name
 
 urlpatterns = [
     path('', ProductListView.as_view(), name='index'),
-    path('product/<int:pk>', ProductDetailView.as_view(), name='product'),
+    path('detail/<int:pk>', ProductDetailView.as_view(), name='product'),
     path('create/', ProductCreateView.as_view(), name='create'),
     path('update/<int:pk>', ProductUpdateView.as_view(), name='update'),
 
