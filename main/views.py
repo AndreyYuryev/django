@@ -1,7 +1,7 @@
 from main.models import Product, Contact, Version
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy
-from main.forms import ContactForm, ProductForm, VersionForm, CustomProductForm
+from main.forms import ContactForm, ProductForm, VersionForm
 from django.forms import inlineformset_factory, ValidationError, modelform_factory
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin, LoginRequiredMixin
 from django.shortcuts import render, redirect
@@ -48,6 +48,10 @@ class ProductCreateView(PermissionRequiredMixin, CreateView):
         self.object.save()
         return super().form_valid(form)
 
+    def get_form_class(self):
+        return modelform_factory(form=ProductForm, model=Product,
+                                 fields=['name', 'description', 'preview', 'category', 'price', ])
+
 
 class ProductUpdateView(UserPassesTestMixin, PermissionRequiredMixin, UpdateView):
     model = Product
@@ -86,8 +90,8 @@ class ProductUpdateView(UserPassesTestMixin, PermissionRequiredMixin, UpdateView
         if self.request.user.has_perm('main.edit_description'):
             fields.append('description')
         if len(fields) > 0:
-            return modelform_factory(form=CustomProductForm, model=Product, fields=fields)
-        return ProductForm
+            return modelform_factory(form=ProductForm, model=Product, fields=fields)
+        return modelform_factory(form=ProductForm, model=Product, fields=['name', 'preview', 'price',])
 
     # def get_object(self, queryset=None):
     #     self.object = super().get_object(queryset)

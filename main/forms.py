@@ -15,7 +15,7 @@ class ContactForm(ModelForm):
 class ProductForm(ModelForm):
     class Meta:
         model = Product
-        fields = ('name', 'description', 'preview', 'category', 'price',)
+        fields = '__all__'
 
     def clean_name(self):
         cleaned_data = self.cleaned_data.get('name')
@@ -34,18 +34,18 @@ class ProductForm(ModelForm):
         return cleaned_data
 
 
-class CustomProductForm(ModelForm):
-    class Meta:
-        model = Product
-        fields = '__all__'
-
-    def clean_description(self):
-        cleaned_data = self.cleaned_data.get('description')
-        for word in cleaned_data.split():
-            if word in RESCTRICTED_WORDS:
-                raise ValidationError(('Запрещенное слово %(value)s в описании продукта'), code='error2',
-                                      params={'value': word})
-        return cleaned_data
+# class CustomProductForm(ModelForm):
+#     class Meta:
+#         model = Product
+#         fields = '__all__'
+#
+#     def clean_description(self):
+#         cleaned_data = self.cleaned_data.get('description')
+#         for word in cleaned_data.split():
+#             if word in RESCTRICTED_WORDS:
+#                 raise ValidationError(('Запрещенное слово %(value)s в описании продукта'), code='error2',
+#                                       params={'value': word})
+#         return cleaned_data
 
 
 class VersionForm(ModelForm):
