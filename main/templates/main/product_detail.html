@@ -22,8 +22,9 @@
                 <p class="card-title pricing-card-title navy_color">Активная версия: {{ field.number }} {{ field.title }}</small></p>
                 {% endfor %}
                 {% endif %}
-            </div>
-            <div class="card-body">
+                {% if object.is_published %}
+                <p class="card-title pricing-card-title navy_color">Опубликовано</small></p>
+                {% endif %}
                 <!--                <img src="/media/{{ product.preview }}" />-->
                 <img src="{{ object.preview|mediapath }}"/>
                 <!--                <img src="{% mediapath_tag product.preview %}" />-->
@@ -31,6 +32,9 @@
             <div class="card-footer py-3">
                 <p class="card-title pricing-card-title navy_color">создано: {{ object.created_at }}</small></p>
                 <p class="card-title pricing-card-title navy_color">изменено: {{ object.changed_at }}</small></p>
+                <p class="card-title pricing-card-title navy_color"><a class="text-body-primary navy_color"
+                                                                       href="{% url 'main:index' %}">к списку
+                    продуктов</a></p>
             </div>
         </div>
     </div>

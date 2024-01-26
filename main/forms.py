@@ -1,4 +1,4 @@
-from django.forms import ModelForm, ValidationError, BaseModelFormSet
+from django.forms import ModelForm, ValidationError, BaseModelFormSet, HiddenInput
 from main.models import Contact, Product, Version
 
 RESCTRICTED_WORDS = ['казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар', ]
@@ -24,6 +24,20 @@ class ProductForm(ModelForm):
                 raise ValidationError(('Запрещенное слово %(value)s в названии продукта'), code='error1',
                                       params={'value': word})
         return cleaned_data
+
+    def clean_description(self):
+        cleaned_data = self.cleaned_data.get('description')
+        for word in cleaned_data.split():
+            if word in RESCTRICTED_WORDS:
+                raise ValidationError(('Запрещенное слово %(value)s в описании продукта'), code='error2',
+                                      params={'value': word})
+        return cleaned_data
+
+
+class CustomProductForm(ModelForm):
+    class Meta:
+        model = Product
+        fields = '__all__'
 
     def clean_description(self):
         cleaned_data = self.cleaned_data.get('description')

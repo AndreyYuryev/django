@@ -27,13 +27,18 @@
             {% for object in object_list %}
             <tr>
                 <td class="align-middle">
+                    {% if user.is_authenticated and perms.main.view_product %}
                     <a class="w-100 btn btn-lg btn-outline-secondary"
-                       href="{% url 'main:product' pk=object.pk %}">{{object.name}}</a></td>
+                       href="{% url 'main:product' pk=object.pk %}">{{object.name}}</a>
+                    {% else %}
+                    {{object.name}}
+                    {% endif %}
+                </td>
                 <td class="align-middle">{{ object.price }}</td>
                 <td class="justify-left">{{ object.description|truncatechars:100 }}</td>
                 <td class="align-middle">{{ object.category.name }}</td>
                 <td class="align-middle">
-                    {% if user.is_authenticated %}
+                    {% if user.is_authenticated and perms.main.change_product %}
                     <a class="w-100 btn btn-lg btn-outline-success"
                                             href="{% url 'main:update' pk=object.pk %}">Изменить</a>
                     {% else %}
@@ -42,7 +47,7 @@
                 </td>
             </tr>
             {% endfor %}
-            {% if user.is_authenticated %}
+            {% if perms.main.add_product %}
             <tr>
                 <td><a class="w-100 btn btn-lg btn-outline-warning" href="{% url 'main:create' %}">Добавить новый продукт</a>
                 </td>

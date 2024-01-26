@@ -12,12 +12,13 @@
         <div class="col-6">
             <div class="card shadow-md">
                 <div class="card-header py-3">
-                    <h4 class="my-0 fw-normal">Продукт</h4>
+                    <h4 class="my-0 fw-normal">Продукт: {{object.name}}</h4>
                 </div>
                 <div class="card-body">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <input type="submit" value="{{button}}" class="w-100 btn btn-lg btn-success"/>
+
                 </div>
             </div>
 
@@ -28,10 +29,12 @@
                     <h4 class="my-0 fw-normal">Версии</h4>
                 </div>
                 <div class="card-body">
+                    {% if perms.main.edit_version %}
                     {{ formset.management_form}}
                     {% for form in formset.forms %}
                     {{ form.as_p }}
                     {% endfor %}
+                    {% endif %}
                 </div>
             </div>
         </div>

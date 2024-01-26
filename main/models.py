@@ -23,7 +23,9 @@ class Product(models.Model):
     price = models.DecimalField(decimal_places=2, max_digits=16)
     created_at = models.DateTimeField(auto_now_add=True)
     changed_at = models.DateTimeField(auto_now=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='автор')
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
+                                   verbose_name='автор')
+    is_published = models.BooleanField(default=False, verbose_name='опубликовано')
 
     def __str__(self):
         return f'Продукт: {self.id} {self.name} по цене {self.price} в категории {self.category}'
@@ -31,6 +33,10 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
+        permissions = [('set_published', 'Опубликовать продукт'),
+                       ('edit_category', 'Изменить категорию'),
+                       ('edit_description', 'Изменить описание'),
+                       ('edit_version', 'Изменение версии')]
 
 
 class Contact(models.Model):

@@ -1,8 +1,11 @@
 from main.models import Product, Contact, Version
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy
-from main.forms import ContactForm, ProductForm, VersionForm
-from django.forms import inlineformset_factory, ValidationError
+from main.forms import ContactForm, ProductForm, VersionForm, CustomProductForm
+from django.forms import inlineformset_factory, ValidationError, modelform_factory
+from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin, LoginRequiredMixin
+from django.shortcuts import render, redirect
+from django.forms import HiddenInput
 
 
 # Create your views here.
@@ -17,9 +20,10 @@ class ProductListView(ListView):
         return ordering
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(PermissionRequiredMixin, DetailView):
     model = Product
     extra_context = {'title': 'Продукт'}
+    permission_required = 'main.view_product'
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -29,12 +33,13 @@ class ProductDetailView(DetailView):
         return context_data
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(PermissionRequiredMixin, CreateView):
     model = Product
     # fields = ('name', 'description', 'category', 'preview', 'price',)
     extra_context = {'title': 'Добавление продукта', 'header': 'Форма для создания продукта', 'button': 'Добавить'}
     success_url = reverse_lazy('main:index')
     form_class = ProductForm
+    permission_required = 'main.add_product'
 
     def form_valid(self, form):
         self.object = form.save()
@@ -43,12 +48,13 @@ class ProductCreateView(CreateView):
         return super().form_valid(form)
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(UserPassesTestMixin, PermissionRequiredMixin, UpdateView):
     model = Product
     # fields = ('description', 'price',)
     extra_context = {'title': 'Изменение продукта', 'header': 'Форма для изменения продукта', 'button': 'Изменить'}
     success_url = reverse_lazy('main:index')
     form_class = ProductForm
+    permission_required = ('main.change_product',)
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -68,6 +74,41 @@ class ProductUpdateView(UpdateView):
             formset.instance = self.object
             formset.save()
         return super().form_valid(form)
+
+    def get_form_class(self):
+        fields = []
+        # add fields by permission
+        if self.request.user.has_perm('main.set_published'):
+            fields.append('is_published')
+        if self.request.user.has_perm('main.edit_category'):
+            fields.append('category')
+        if self.request.user.has_perm('main.edit_description'):
+            fields.append('description')
+        if len(fields) > 0:
+            return modelform_factory(form=CustomProductForm, model=Product, fields=fields)
+        return ProductForm
+
+    # def get_form(self, *args, **kwargs):
+    #     # self.form = super().get_form(*args, **kwargs)
+    #     # print('set', self.request.user.has_perm('main.set_published'))
+    #     print('ddd', self.object)
+    #     if self.request.user.has_perm('main.set_published'):
+    #         self.form = ProductForm(instance=self.object)
+    #         # self.form.base_fields['is_published'].disabled = False
+    #         # self.form.base_fields['description'].disabled = False
+    #     else:
+    #         # self.form.base_fields['is_published'].disabled = True
+    #         # self.form.base_fields['description'].disabled = True
+    #         # self.form.base_fields['category'].widget = HiddenInput()
+    #         Form = modelform_factory(form=CustomProductForm, model=Product, fields=['category', 'is_published'])
+    #         self.form = Form(instance=self.object)
+    #     return self.form
+
+    # def get_object(self, queryset=None):
+    #     self.object = super().get_object(queryset=queryset)
+    #     print('obj', self.object, 'd', self.request)
+    #     self.object.save()
+    #     return self.object
 
 
 class ContactListView(ListView):
