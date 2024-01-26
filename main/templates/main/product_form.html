@@ -18,7 +18,10 @@
                     {% csrf_token %}
                     {{ form.as_p }}
                     <input type="submit" value="{{button}}" class="w-100 btn btn-lg btn-success"/>
-
+                </div>
+                <div class="card-footer">
+                    <a class="text-body-primary navy_color"
+                        href="{% url 'main:index' %}">к списку продуктов</a>
                 </div>
             </div>
 

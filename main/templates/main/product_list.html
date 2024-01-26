@@ -39,17 +39,22 @@
                 <td class="align-middle">{{ object.category.name }}</td>
                 <td class="align-middle">
                     {% if user.is_authenticated and perms.main.change_product %}
+                    {% if user == object.created_by or user.is_staff %}
                     <a class="w-100 btn btn-lg btn-outline-success"
-                                            href="{% url 'main:update' pk=object.pk %}">Изменить</a>
+                       href="{% url 'main:update' pk=object.pk %}">Изменить</a>
                     {% else %}
                     -
+                    {% endif %}
+                    {% else %}
+                    --
                     {% endif %}
                 </td>
             </tr>
             {% endfor %}
             {% if perms.main.add_product %}
             <tr>
-                <td><a class="w-100 btn btn-lg btn-outline-warning" href="{% url 'main:create' %}">Добавить новый продукт</a>
+                <td><a class="w-100 btn btn-lg btn-outline-warning" href="{% url 'main:create' %}">Добавить новый
+                    продукт</a>
                 </td>
             </tr>
             {% endif %}

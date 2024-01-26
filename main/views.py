@@ -6,6 +6,7 @@ from django.forms import inlineformset_factory, ValidationError, modelform_facto
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin, LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.forms import HiddenInput
+from django.http import Http404
 
 
 # Create your views here.
@@ -87,6 +88,22 @@ class ProductUpdateView(UserPassesTestMixin, PermissionRequiredMixin, UpdateView
         if len(fields) > 0:
             return modelform_factory(form=CustomProductForm, model=Product, fields=fields)
         return ProductForm
+
+    # def get_object(self, queryset=None):
+    #     self.object = super().get_object(queryset)
+    #     if self.object.created_by != self.request.user:
+    #         raise Http404
+    #     return self.object
+
+    def test_func(self):
+        self.object = super().get_object()
+        if (self.request.user.has_perm('main.change_product')
+                and (self.object.created_by == self.request.user
+                     or self.request.user.has_perm('main.set_published')
+                     or self.request.user.has_perm('main.edit_category')
+                     or self.request.user.has_perm('main.edit_description'))):
+            return True
+        return False
 
     # def get_form(self, *args, **kwargs):
     #     # self.form = super().get_form(*args, **kwargs)
