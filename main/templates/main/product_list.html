@@ -1,53 +1,15 @@
 {% extends 'main/base.html' %}
 {% block header %}
 <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-    <h1 class="display-4 fw-normal text-body-emphasis">Добро пожаловать!</h1>
+    <h1 class="display-4 fw-normal text-body-emphasis">Список продуктов</h1>
     <p class="fs-5 text-body-secondary">Это список продуктов из базы</p>
 </div>
 {% endblock %}
+
 {% block content %}
-<nav aria-label="Pagination">
-    <ul class="pagination justify-content-center">
-        {% if page_obj.has_previous %}
-        <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
-        </li>
-        {% else %}
-        <li class="page-item disabled">
-            <a class="page-link" href="#">Предыдущая</a>
-        </li>
-        {% endif %}
-        <li class="page-item active">
-            <div class="page-link">{{ page_obj.number }}</div>
-        </li>
-        {% if page_obj.has_next %}
-        <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Следующая</a>
-        </li>
-        {% else %}
-        <li class="page-item disabled">
-            <a class="page-link" href="#">Следующая</a>
-        </li>
-        {% endif %}
-    </ul>
-</nav>
-<!--<div class="pagination">-->
-<!--    <span class="step-links">-->
-<!--        {% if page_obj.has_previous %}-->
-<!--            <a href="?page=1">&laquo; first</a>-->
-<!--            <a href="?page={{ page_obj.previous_page_number }}">previous</a>-->
-<!--        {% endif %}-->
 
-<!--        <span class="current">-->
-<!--            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.-->
-<!--        </span>-->
+{% include 'main/includes/inc_pagination.html' %}
 
-<!--        {% if page_obj.has_next %}-->
-<!--            <a href="?page={{ page_obj.next_page_number }}">next</a>-->
-<!--            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>-->
-<!--        {% endif %}-->
-<!--    </span>-->
-<!--</div>-->
 <div class="row text-center">
     <div class="col-12">
         <p class="fs-5 text-body-secondary">Список товаров</p>
@@ -65,24 +27,34 @@
             {% for object in object_list %}
             <tr>
                 <td class="align-middle">
+                    {% if user.is_authenticated and perms.main.view_product %}
                     <a class="w-100 btn btn-lg btn-outline-secondary"
-                       href="{% url 'main:product' pk=object.pk %}">{{object.name}}</a></td>
+                       href="{% url 'main:product' pk=object.pk %}">{{object.name}}</a>
+                    {% else %}
+                    {{object.name}}
+                    {% endif %}
+                </td>
                 <td class="align-middle">{{ object.price }}</td>
                 <td class="justify-left">{{ object.description|truncatechars:100 }}</td>
                 <td class="align-middle">{{ object.category.name }}</td>
                 <td class="align-middle">
-                    {% if user.is_authenticated %}
+                    {% if user.is_authenticated and perms.main.change_product %}
+                    {% if user == object.created_by or user.is_staff %}
                     <a class="w-100 btn btn-lg btn-outline-success"
-                                            href="{% url 'main:update' pk=object.pk %}">Изменить</a>
+                       href="{% url 'main:update' pk=object.pk %}">Изменить</a>
                     {% else %}
                     -
+                    {% endif %}
+                    {% else %}
+                    --
                     {% endif %}
                 </td>
             </tr>
             {% endfor %}
-            {% if user.is_authenticated %}
+            {% if perms.main.add_product %}
             <tr>
-                <td><a class="w-100 btn btn-lg btn-outline-warning" href="{% url 'main:create' %}">Добавить новый продукт</a>
+                <td><a class="w-100 btn btn-lg btn-outline-warning" href="{% url 'main:create' %}">Добавить новый
+                    продукт</a>
                 </td>
             </tr>
             {% endif %}

@@ -3,9 +3,9 @@
         <li><a class="nav-link px-2 link-body-emphasis text-decoration-none"
                href="{% url 'main:index' %}">Продукты</a></li>
         <li><a class="nav-link px-2 link-body-emphasis text-decoration-none"
-               href="{% url 'main:contact' %}">Контакты</a></li>
-        <li><a class="nav-link px-2 link-body-emphasis text-decoration-none"
                href="{% url 'blog_app:index' %}">К блогам</a></li>
+        <li><a class="nav-link px-2 link-body-emphasis text-decoration-none"
+               href="{% url 'main:contact' %}">Контакты</a></li>
     </ul>
 </div>
 
@@ -13,10 +13,10 @@
     {% if user.is_authenticated %}
     <ul class="nav col-6 col-md-auto mb-2 justify-content-end mb-md-0">
         <li><a class="nav-link px-2 link-body-emphasis text-decoration-none"
-                href="/admin">Админка</a></li>
+               href="/admin">Админка</a></li>
         <li><a class="nav-link px-2 link-body-emphasis text-decoration-none"
                href="{% url 'users:profile' %}">Профиль</a></li>
-                <li><a class="nav-link px-2 link-body-emphasis text-decoration-none"
+        <li><a class="nav-link px-2 link-body-emphasis text-decoration-none"
                href="{% url 'users:password_change' %}">Смена пароля</a></li>
         <li>
             <form method="post" action="{% url 'users:logout' %}">
