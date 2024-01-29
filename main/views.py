@@ -1,8 +1,8 @@
-from main.models import Product, Contact, Version, Category
+from main.models import Product, Contact, Version
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy
 from main.forms import ContactForm, ProductForm, VersionForm
-from django.forms import inlineformset_factory, ValidationError, modelform_factory
+from django.forms import inlineformset_factory, modelform_factory
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin, LoginRequiredMixin
 from main.services import get_categories
 
