@@ -2,11 +2,9 @@ from main.models import Product, Contact, Version
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy
 from main.forms import ContactForm, ProductForm, VersionForm
-from django.forms import inlineformset_factory, ValidationError, modelform_factory
+from django.forms import inlineformset_factory, modelform_factory
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin, LoginRequiredMixin
-from django.shortcuts import render, redirect
-from django.forms import HiddenInput
-from django.http import Http404
+from main.services import get_categories
 
 
 # Create your views here.
@@ -31,6 +29,7 @@ class ProductDetailView(PermissionRequiredMixin, DetailView):
         version_obj = Version.objects.filter(product=self.object, is_active=True)
         if version_obj:
             context_data['version'] = version_obj
+        # context_data['categories'] = get_categories()
         return context_data
 
 
@@ -55,7 +54,6 @@ class ProductCreateView(PermissionRequiredMixin, CreateView):
 
 class ProductUpdateView(UserPassesTestMixin, PermissionRequiredMixin, UpdateView):
     model = Product
-    # fields = ('description', 'price',)
     extra_context = {'title': 'Изменение продукта', 'header': 'Форма для изменения продукта', 'button': 'Изменить'}
     success_url = reverse_lazy('main:index')
     form_class = ProductForm
@@ -91,7 +89,7 @@ class ProductUpdateView(UserPassesTestMixin, PermissionRequiredMixin, UpdateView
             fields.append('description')
         if len(fields) > 0:
             return modelform_factory(form=ProductForm, model=Product, fields=fields)
-        return modelform_factory(form=ProductForm, model=Product, fields=['name', 'preview', 'price',])
+        return modelform_factory(form=ProductForm, model=Product, fields=['name', 'preview', 'price', ])
 
     # def get_object(self, queryset=None):
     #     self.object = super().get_object(queryset)
@@ -108,28 +106,6 @@ class ProductUpdateView(UserPassesTestMixin, PermissionRequiredMixin, UpdateView
                      or self.request.user.has_perm('main.edit_description'))):
             return True
         return False
-
-    # def get_form(self, *args, **kwargs):
-    #     # self.form = super().get_form(*args, **kwargs)
-    #     # print('set', self.request.user.has_perm('main.set_published'))
-    #     print('ddd', self.object)
-    #     if self.request.user.has_perm('main.set_published'):
-    #         self.form = ProductForm(instance=self.object)
-    #         # self.form.base_fields['is_published'].disabled = False
-    #         # self.form.base_fields['description'].disabled = False
-    #     else:
-    #         # self.form.base_fields['is_published'].disabled = True
-    #         # self.form.base_fields['description'].disabled = True
-    #         # self.form.base_fields['category'].widget = HiddenInput()
-    #         Form = modelform_factory(form=CustomProductForm, model=Product, fields=['category', 'is_published'])
-    #         self.form = Form(instance=self.object)
-    #     return self.form
-
-    # def get_object(self, queryset=None):
-    #     self.object = super().get_object(queryset=queryset)
-    #     print('obj', self.object, 'd', self.request)
-    #     self.object.save()
-    #     return self.object
 
 
 class ContactListView(ListView):
